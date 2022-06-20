@@ -8,6 +8,7 @@ require('./config')
 const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require('@adiwajshing/baileys')
 const fs = require('fs')
 const util = require('util')
+const hxz = require("hxz-api")
 const chalk = require('chalk')
 const { exec, spawn, execSync } = require("child_process")
 const axios = require('axios')
@@ -20,6 +21,17 @@ const { performance } = require('perf_hooks')
 const { Primbon } = require('scrape-primbon')
 const primbon = new Primbon()
 const { smsg, formatp, tanggal, formatDate, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
+
+const { tiktok, tiktok2 } = require("../scrape/tiktok.js")
+const { igdl } = require('../scrape/igdl.js')
+const { twitter } = require('../scrape/twitter.js')
+const { alldownload } = require('../scrape/downloader.js')
+const { ytmp3, ytmp4 } = require('../scrape/yt.js')
+const { y2mateA, y2mateV } = require('../scrape/y2mate.js')
+const { Gempa, Cuaca} = require("../scrape/bmkg")
+const { lirikLagu } = require('../scrape/lirik.js')
+const { chord } = require('../scrape/chord.js')
+const { igstory } = require('../scrape/igstory.js')
 
 // read database
 let tebaklagu = db.data.game.tebaklagu = []
@@ -50,6 +62,17 @@ module.exports = hisoka = async (hisoka, m, chatUpdate, store) => {
         const quoted = m.quoted ? m.quoted : m
         const mime = (quoted.msg || quoted).mimetype || ''
         const isMedia = /image|video|sticker|audio/.test(mime)
+       
+       async function sendPlay(from, query) {
+                  var url = await yts(query)
+                  url = url.videos[0].url
+                  hxz.youtube(url).then(async(data) => {
+                  var button = [{ buttonId: `!ytmp3 ${url}`, buttonText: { displayText: `🎵 Audio (${data.size_mp3})` }, type: 1 }, { buttonId: `!ytmp4 ${url}`, buttonText: { displayText: `🎥 Video (${data.size})` }, type: 1 }]
+                  hisoka.sendMessage(from, { caption: `*Title :* ${data.title}\n*Quality :* ${data.quality}\n*Url :* https://youtu.be/${data.id}`, location: { jpegThumbnail: await getBuffer(data.thumb) }, buttons: button, footer: '*click the button below⬇️*', mentions: [sender] })
+                  }).catch((e) => {
+                    hisoka.sendMessage(from, { text: mess.error.api }, { quoted: msg })
+                    ownerNumber.map( i => hisoka.sendMessage(from, { text: `Send Play Error : ${e}` }))
+                  })
 	
         // Group
         const groupMetadata = m.isGroup ? await hisoka.groupMetadata(m.chat).catch(e => {}) : ''
