@@ -21,17 +21,6 @@ const { Primbon } = require('scrape-primbon')
 const primbon = new Primbon()
 const { smsg, formatp, tanggal, formatDate, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
 
-const { tiktok, tiktok2 } = require("../scrape/tiktok.js")
-const { igdl } = require('../scrape/igdl.js')
-const { twitter } = require('../scrape/twitter.js')
-const { alldownload } = require('../scrape/downloader.js')
-const { ytmp3, ytmp4 } = require('../scrape/yt.js')
-const { y2mateA, y2mateV } = require('../scrape/y2mate.js')
-const { Gempa, Cuaca} = require("../scrape/bmkg")
-const { lirikLagu } = require('../scrape/lirik.js')
-const { chord } = require('../scrape/chord.js')
-const { igstory } = require('../scrape/igstory.js')
-
 // read database
 let tebaklagu = db.data.game.tebaklagu = []
 let _family100 = db.data.game.family100 = []
