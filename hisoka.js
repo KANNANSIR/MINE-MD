@@ -63,17 +63,7 @@ module.exports = hisoka = async (hisoka, m, chatUpdate, store) => {
         const mime = (quoted.msg || quoted).mimetype || ''
         const isMedia = /image|video|sticker|audio/.test(mime)
        
-       async function sendPlay(from, query) {
-                  var url = await yts(query)
-                  url = url.videos[0].url
-                  hxz.youtube(url).then(async(data) => {
-                  var button = [{ buttonId: `!ytmp3 ${url}`, buttonText: { displayText: `🎵 Audio (${data.size_mp3})` }, type: 1 }, { buttonId: `!ytmp4 ${url}`, buttonText: { displayText: `🎥 Video (${data.size})` }, type: 1 }]
-                  hisoka.sendMessage(from, { caption: `*Title :* ${data.title}\n*Quality :* ${data.quality}\n*Url :* https://youtu.be/${data.id}`, location: { jpegThumbnail: await getBuffer(data.thumb) }, buttons: button, footer: '*click the button below⬇️*', mentions: [sender] })
-                  }).catch((e) => {
-                    hisoka.sendMessage(from, { text: mess.error.api }, { quoted: msg })
-                    ownerNumber.map( i => hisoka.sendMessage(from, { text: `Send Play Error : ${e}` }))
-                  })
-	
+       
         // Group
         const groupMetadata = m.isGroup ? await hisoka.groupMetadata(m.chat).catch(e => {}) : ''
         const groupName = m.isGroup ? groupMetadata.subject : ''
